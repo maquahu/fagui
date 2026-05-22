@@ -9,17 +9,20 @@ import HomeView from "./components/HomeView";
 import WorkspaceListView from "./components/WorkspaceListView";
 import WorkspaceDetailView from "./components/WorkspaceDetailView";
 import TemplateGridView from "./components/TemplateGridView";
+import HistoryRecordsView from "./components/HistoryRecordsView";
 
 import { 
   INITIAL_TEMPLATES, 
-  INITIAL_WORKSPACES 
+  INITIAL_WORKSPACES,
+  INITIAL_QA_HISTORY
 } from "./initialData";
 
 import { 
   Workspace, 
   Template, 
   WorkspaceType, 
-  Artifact 
+  Artifact,
+  QaRecord
 } from "./types";
 
 import { 
@@ -28,7 +31,13 @@ import {
   Layers, 
   Clock, 
   ArrowRight, 
-  Building 
+  Building,
+  Edit2,
+  Trash2,
+  FileText,
+  MessageSquareCode,
+  CheckCircle,
+  FolderLock
 } from "lucide-react";
 
 export default function App() {
@@ -38,11 +47,13 @@ export default function App() {
   // Core application States
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [qaHistory, setQaHistory] = useState<QaRecord[]>([]);
 
   // Local storage binding hook on startup
   useEffect(() => {
     const cachedWs = localStorage.getItem("0519_judicial_workspaces");
     const cachedTpls = localStorage.getItem("0519_judicial_templates");
+    const cachedQa = localStorage.getItem("amicus_qa_history");
 
     if (cachedWs) {
       try {
@@ -63,6 +74,16 @@ export default function App() {
     } else {
       setTemplates(INITIAL_TEMPLATES);
     }
+
+    if (cachedQa) {
+      try {
+        setQaHistory(JSON.parse(cachedQa));
+      } catch (e) {
+        setQaHistory(INITIAL_QA_HISTORY);
+      }
+    } else {
+      setQaHistory(INITIAL_QA_HISTORY);
+    }
   }, []);
 
   // Sync to local storage on modifications
@@ -75,6 +96,14 @@ export default function App() {
     setTemplates(prev => {
       const resolved = typeof nextTpls === "function" ? nextTpls(prev) : nextTpls;
       localStorage.setItem("0519_judicial_templates", JSON.stringify(resolved));
+      return resolved;
+    });
+  };
+
+  const handleUpdateQaHistory = (nextQa: React.SetStateAction<QaRecord[]>) => {
+    setQaHistory(prev => {
+      const resolved = typeof nextQa === "function" ? nextQa(prev) : nextQa;
+      localStorage.setItem("amicus_qa_history", JSON.stringify(resolved));
       return resolved;
     });
   };
@@ -192,6 +221,8 @@ export default function App() {
                 setActiveTab={setActiveTab}
                 onCreateWorkspace={handleCreateWorkspace}
                 onSelectWorkspace={handleSelectWorkspace}
+                qaHistory={qaHistory}
+                setQaHistory={handleUpdateQaHistory}
               />
             )}
 
@@ -213,57 +244,10 @@ export default function App() {
             )}
 
             {activeTab === "history" && (
-              <div className="flex-1 p-8 overflow-y-auto bg-gray-50 flex flex-col gap-6 h-full font-sans">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                    <History className="w-5 h-5 text-gray-600" />
-                    <span>智能办案历史记录与核验审计轨</span>
-                  </h2>
-                  <p className="text-xs text-gray-500 mt-1">
-                    系统审计轨迹：追溯由 AI 大模型自动辅助完成的全部文发起草、胜诉评析及结案成果归档。
-                  </p>
-                </div>
-
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-6 space-y-4">
-                  <div className="text-sm font-bold text-gray-700 pb-3 border-b">
-                    历史成果审计日志 Timeline
-                  </div>
-
-                  {getFullHistoryArtifacts().length === 0 ? (
-                    <div className="py-20 text-center text-gray-300 text-xs text-sans">
-                      <Clock className="w-10 h-10 mx-auto mb-2 text-gray-300" />
-                      <span>暂无任何 AI 办案审计发生记录。</span>
-                      <p className="text-[10px] text-gray-400 mt-1 leading-normal">
-                        当您在特定工作空间启用“大模型评估”或“一键起草文书并保存”后，系统审计轨迹将在此永久体现。
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {getFullHistoryArtifacts().map((item, idx) => (
-                        <div key={idx} className="flex gap-4 items-start text-xs border-l-2 border-blue-500 pl-4 py-1 ml-1 select-text">
-                          <div className="w-24 shrink-0 font-mono text-gray-400">
-                            {new Date(item.date).toLocaleString()}
-                          </div>
-                          
-                          <div className="flex-1 space-y-1">
-                            <span className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-100 font-bold mr-2">
-                              {item.type}
-                            </span>
-                            <span className="font-bold text-gray-800 font-mono">
-                              {item.title}
-                            </span>
-                            <p className="text-[11px] text-gray-400 mt-0.5 font-sans">
-                              所署专案工作台: <span className="font-medium text-gray-600">{item.wsName}</span>
-                            </p>
-                          </div>
-                          
-                          <ArrowRight className="w-4 h-4 text-gray-300 self-center" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <HistoryRecordsView 
+                qaHistory={qaHistory}
+                setQaHistory={handleUpdateQaHistory}
+              />
             )}
           </>
         )}

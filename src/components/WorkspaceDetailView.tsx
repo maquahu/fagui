@@ -9,7 +9,8 @@ import {
   UploadCloud, FileCheck, AlertCircle, 
   Trash2, Download, Play, Eye, Clipboard,
   ChevronRight, ArrowRight, Gauge, Send, Activity, Save,
-  X, Sparkles, Search, ChevronLeft, Minimize2, ChevronDown, CheckSquare, Clock
+  X, Sparkles, Search, ChevronLeft, Minimize2, ChevronDown, CheckSquare, Clock,
+  Columns, FolderPlus
 } from "lucide-react";
 import { Workspace, Attachment, Artifact, Template, WorkspaceType } from "../types";
 
@@ -399,7 +400,7 @@ export default function WorkspaceDetailView({
 
     const steps = [
       "正在收集案件双方履约对账流水及一二期回款...",
-      "正在聚合庭前最终合意调停和案件裁定内容...",
+      "正在聚合庭前最终合意调停 and 案件裁定内容...",
       "正在多级提炼逆向企业防范要旨并整合法务防守方略报告..."
     ];
 
@@ -507,21 +508,19 @@ export default function WorkspaceDetailView({
           <span>{toastMessage}</span>
         </div>
       )}
-
-      {/* Primary Workspace top information dashboard */}
-      <div className="bg-white px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+      <div className="bg-white px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 font-sans">
         <div className="flex items-center gap-3">
           <button
             id="btn-back-to-list"
             onClick={onBack}
-            className="p-1.5 border border-slate-100 text-gray-500 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5 active:scale-95"
+            className="p-1.5 border border-slate-200 text-slate-500 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 active:scale-95 cursor-pointer"
             title="返回工作空间列表"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-xs text-gray-600 hidden sm:inline">空间</span>
+            <span className="text-xs text-slate-600 hidden sm:inline">工作空间</span>
           </button>
           
-          <div className="space-y-0.5">
+          <div className="space-y-0.5 text-left">
             <div className="flex items-center gap-2">
               {isEditingName ? (
                 <div className="flex items-center gap-2">
@@ -530,19 +529,19 @@ export default function WorkspaceDetailView({
                     type="text"
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
-                    className="border border-blue-400 bg-white px-2 py-0.5 text-sm font-bold text-gray-900 rounded focus:outline-none"
+                    className="border border-blue-400 bg-white px-2 py-0.5 text-sm font-bold text-slate-900 rounded focus:outline-none"
                     onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
                   />
                   <button onClick={handleSaveName} className="p-1 bg-emerald-600 text-white rounded cursor-pointer">
                     <Check className="w-3.5 h-3.5" />
                   </button>
-                  <button onClick={() => setIsEditingName(false)} className="p-1 bg-gray-300 text-gray-700 rounded cursor-pointer">
+                  <button onClick={() => setIsEditingName(false)} className="p-1 bg-slate-200 text-slate-700 rounded cursor-pointer">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5">
-                  <h3 id="workspace-detail-title" className="text-sm font-bold text-gray-800 tracking-tight">
+                  <h3 id="workspace-detail-title" className="text-sm font-bold text-slate-800 tracking-tight">
                     {workspace.name}
                   </h3>
                   <button 
@@ -555,17 +554,17 @@ export default function WorkspaceDetailView({
                 </div>
               )}
             </div>
-            <p className="text-[10px] font-mono text-gray-400">
+            <p className="text-[10px] font-mono text-slate-400 text-left">
               司法案号: {workspace.caseNo || "(2026)沪01民初0519号"}
             </p>
           </div>
         </div>
 
         {/* Action badges and state controller */}
-        <div className="flex items-center gap-4 text-xs font-mono">
-          <div className="hidden lg:flex items-center gap-3 bg-gray-50 border border-slate-100 py-1.5 px-3 rounded-lg text-gray-500 text-[11px]">
-            <div>被告人: <span className="font-bold text-gray-700">{workspace.opposingParty}</span></div>
-            <div className="border-l border-slate-100 h-3 pl-3">诉争标的: <span className="font-bold text-blue-600">¥{workspace.amount.toLocaleString()}元</span></div>
+        <div className="flex items-center gap-4 text-xs font-sans">
+          <div className="hidden lg:flex items-center gap-3 bg-slate-50/50 border border-slate-100 py-1.5 px-3 rounded-lg text-slate-500 text-[11px]">
+            <div>被告人: <span className="font-bold text-slate-700">{workspace.opposingParty}</span></div>
+            <div className="border-l border-slate-150 h-3 pl-3">诉争标的: <span className="font-bold text-blue-600">¥{workspace.amount.toLocaleString()}元</span></div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -601,44 +600,41 @@ export default function WorkspaceDetailView({
         {isLeftCollapsed ? (
           <div 
             onClick={() => setIsLeftCollapsed(false)}
-            className="w-11 bg-slate-50 border-r border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition-all flex flex-col items-center py-4 gap-4 cursor-pointer relative shrink-0"
+            className="w-12 bg-slate-50 border-r border-slate-100 hover:bg-blue-50/50 hover:border-blue-200 transition-all flex flex-col items-center py-4 gap-4 cursor-pointer relative shrink-0"
             title="展开参考文件列表"
           >
             <ChevronRight className="w-4 h-4 text-slate-400" />
-            <span className="writing-mode-vertical text-[11px] font-bold text-slate-500 tracking-wider">参考文件列表</span>
+            <span className="writing-mode-vertical text-[11px] font-bold text-slate-500 tracking-wider">文件列表</span>
             <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-black">{workspace.attachments.length}</span>
           </div>
         ) : (
           <div className="w-72 bg-white border-r border-slate-100 flex flex-col justify-between shrink-0 h-full overflow-hidden">
             
             {/* Folder list header */}
-            <div className="p-3 bg-slate-50/80 border-b border-slate-100/50 flex justify-between items-center text-xs font-bold text-gray-700">
-              <span className="flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-slate-500" />
-                <span>参考文件列表</span>
-              </span>
+            <div className="p-4 bg-white border-b border-slate-100 flex justify-between items-center">
+              <span className="text-sm font-bold text-slate-800 tracking-tight">文件列表</span>
               <button
                 id="btn-collapse-left-pane"
                 onClick={() => setIsLeftCollapsed(true)}
-                className="text-[10px] text-gray-400 hover:text-blue-500 flex items-center gap-0.5 border border-transparent hover:border-slate-100 px-1 py-0.5 rounded cursor-pointer"
-                title="收起参考文件面板"
+                className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition-colors cursor-pointer"
+                title="收起"
               >
-                <span>收起</span>
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <Columns className="w-4 h-4 text-slate-400" />
+                <span className="font-medium text-slate-500">收起</span>
               </button>
             </div>
 
             {/* Draggable upload or manual selection box */}
-            <div className="p-3 border-b border-slate-100/40">
+            <div className="p-4">
               <div 
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={triggerAttachmentUpload}
-                className={`border border-dashed rounded-lg p-5 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
+                className={`border border-dashed rounded-xl p-6 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
                   isDragging 
-                    ? "border-blue-500 bg-blue-50/40" 
-                    : "border-slate-100 hover:border-blue-400 bg-slate-50 hover:bg-white"
+                    ? "border-blue-400 bg-blue-50/20" 
+                    : "border-slate-300 hover:border-slate-400 bg-white"
                 }`}
               >
                 <input
@@ -648,14 +644,15 @@ export default function WorkspaceDetailView({
                   className="hidden"
                 />
                 
-                <UploadCloud className={`w-8 h-8 ${isDragging ? "text-blue-600 animate-bounce" : "text-slate-400"} mb-1.5`} />
-                <span className="text-[11px] font-extrabold text-slate-700">将文件拖拽到此处</span>
-                <p className="text-[9.5px] text-slate-400 leading-relaxed mt-1">
-                  仅支持 Word、PDF 文件，且不超过 100MB，最多上传 10 个
+                <span className="text-[13px] font-bold text-slate-700 font-sans tracking-wide">将文件拖到此处</span>
+                <p className="text-[10.5px] text-slate-400 leading-relaxed mt-2 text-center max-w-[210px] font-sans">
+                  仅支持上传word、PDF、jpg、png文件，且不超过100MB，
+                  <br />
+                  最多上传10个
                 </p>
                 <button
                   type="button"
-                  className="mt-3 text-[10px] font-bold bg-white text-slate-700 border border-slate-200 py-1 px-2.5 rounded-md hover:bg-slate-50 transition-colors cursor-pointer"
+                  className="mt-4 px-5 py-1.8 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold rounded-lg transition-all cursor-pointer shadow-xs active:scale-95"
                 >
                   上传文件
                 </button>
@@ -663,24 +660,24 @@ export default function WorkspaceDetailView({
             </div>
 
             {/* Counts header and action row */}
-            <div className="px-3 py-1.5 bg-slate-50/50 border-b border-slate-100/50 flex justify-between items-center text-[10.5px] text-gray-500 font-mono">
-              <span className="font-bold text-slate-700">共 {workspace.attachments.length} 个文件</span>
+            <div className="px-4 py-2 border-b border-slate-100/50 flex justify-between items-center text-xs text-slate-400">
+              <span className="font-semibold text-slate-500">共 {workspace.attachments.length} 个文件</span>
               
-              <div className="flex items-center gap-2">
-                <button onClick={triggerAttachmentUpload} className="p-0.5 text-gray-400 hover:text-blue-600 rounded cursor-pointer" title="添加新证据纸质件">
-                  <Sparkles className="w-3 h-3" />
+              <div className="flex items-center gap-3">
+                <button onClick={triggerAttachmentUpload} className="p-0.5 text-slate-400 hover:text-blue-600 transition-colors rounded cursor-pointer" title="添加新证据纸质件">
+                  <FolderPlus className="w-3.8 h-3.8" />
                 </button>
-                <button className="p-0.5 text-gray-400 hover:text-blue-600 rounded cursor-pointer" title="批量导出本案卷">
-                  <Download className="w-3 h-3" />
+                <button className="p-0.5 text-slate-400 hover:text-blue-600 transition-colors rounded cursor-pointer" title="批量导出本案卷">
+                  <Download className="w-3.8 h-3.8" />
                 </button>
-                <button className="p-0.5 text-gray-400 hover:text-blue-600 rounded cursor-pointer" title="全案检索匹配">
-                  <Search className="w-3 h-3" />
+                <button className="p-0.5 text-slate-400 hover:text-blue-600 transition-colors rounded cursor-pointer" title="全案检索匹配">
+                  <Search className="w-3.8 h-3.8" />
                 </button>
               </div>
             </div>
 
             {/* Scrollable list container */}
-            <div className="flex-1 p-3 overflow-y-auto space-y-2">
+            <div className="flex-1 px-4 py-2 overflow-y-auto space-y-2 font-sans">
               {uploadingProgress !== null && (
                 <div className="p-3 bg-blue-50 rounded-lg border border-blue-100 space-y-1.5 text-[10.5px]">
                   <div className="flex justify-between font-bold font-mono text-blue-800">
@@ -694,9 +691,9 @@ export default function WorkspaceDetailView({
               )}
 
               {workspace.attachments.length === 0 ? (
-                <div className="py-12 px-4 text-center text-slate-400 space-y-2">
-                  <span className="text-[11px] font-medium block">暂无任何参考文件</span>
-                  <p className="text-[9.5px] text-slate-300 antialiased">
+                <div className="py-20 text-center text-slate-400 space-y-2">
+                  <span className="text-xs font-semibold block text-slate-500">暂无任何参考文件</span>
+                  <p className="text-[10.5px] text-slate-455 tracking-wide leading-relaxed">
                     可拖放或点击上方区域快速装载购货合同、转账水单、微信对账函等凭证资料
                   </p>
                 </div>
@@ -705,37 +702,41 @@ export default function WorkspaceDetailView({
                   <div
                     id={`att-row-${att.id}`}
                     key={att.id}
-                    className="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-lg transition-all flex items-start gap-2 group relative"
+                    className="py-3.5 border-b border-slate-100 hover:bg-slate-50/40 rounded-lg px-2.5 transition-all flex items-center justify-between group relative text-left"
                   >
-                    <FileCheck className="w-4.5 h-4.5 text-blue-600 shrink-0 mt-0.5" />
-                    
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-bold text-slate-800 truncate font-mono" title={att.name}>
-                        {att.name}
-                      </p>
-                      <p className="text-[9.5px] text-slate-400 font-mono mt-0.5">
-                        {att.size} • {new Date(att.uploadedAt).toISOString().slice(5, 10)}
-                      </p>
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      {/* Document icon representing file format */}
+                      <div className="w-8 h-8 rounded-lg bg-[#f1f3f5] flex items-center justify-center shrink-0 border border-slate-200/20">
+                        <FileText className="w-4.5 h-4.5 text-slate-500" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-semibold text-slate-700 truncate font-sans" title={att.name}>
+                          {att.name}
+                        </p>
+                        <p className="text-[10px] text-slate-400 font-mono mt-0.5">
+                          {att.size}
+                        </p>
+                      </div>
                     </div>
 
                     {/* Quick overlay controls appearing on hover */}
-                    <div className="absolute right-2 top-2 hidden group-hover:flex items-center gap-1.5 bg-slate-100/90 py-0.5 px-1.5 rounded-md border border-slate-100 shadow-none">
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1.5 bg-white py-1 px-2 rounded-lg border border-slate-100 shadow-sm z-10">
                       <button
                         id={`btn-ocr-preview-${att.id}`}
                         onClick={() => setSelectedAttachmentForOcr(att)}
-                        className="p-1 text-slate-600 hover:text-blue-600 transition-colors rounded cursor-pointer"
+                        className="p-1 text-slate-400 hover:text-blue-600 transition-colors rounded cursor-pointer"
                         title="在线预览 OCR 智能提取内容"
                       >
-                        <Eye className="w-3 h-3" />
+                        <Eye className="w-3.5 h-3.5" />
                       </button>
 
                       <button
                         id={`btn-del-file-${att.id}`}
                         onClick={() => handleAttachmentDelete(att.id, att.name)}
-                        className="p-1 text-red-500 hover:text-red-700 transition-colors rounded cursor-pointer"
+                        className="p-1 text-red-400 hover:text-red-600 transition-colors rounded cursor-pointer"
                         title="删除该文件"
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
@@ -744,15 +745,11 @@ export default function WorkspaceDetailView({
             </div>
 
             {/* Bottom info banner */}
-            <div className="p-3 border-t border-slate-100 bg-slate-50/50 text-[9.5px] text-gray-400 leading-normal font-mono">
+            <div className="p-4 border-t border-slate-150/60 bg-slate-50/20 text-[10px] text-gray-400 leading-relaxed font-sans text-left">
               提示：双侧面板支持自由拖拽展开或折起，支持直接复制提取出的文案和契约条款。
             </div>
           </div>
         )}
-
-        {/* ========================================== */}
-        {/* PANEL 2: CENTER AREA (FUNCTION SELECTOR)  */}
-        {/* ========================================== */}
         <div className="flex-1 bg-white border-r border-slate-100 flex flex-col overflow-hidden h-full">
           
           {/* Breadcrumbs and Section Headers */}
@@ -1263,11 +1260,11 @@ export default function WorkspaceDetailView({
               <button
                 id="btn-collapse-right-pane"
                 onClick={() => setIsRightCollapsed(true)}
-                className="text-[10px] text-gray-400 hover:text-blue-500 flex items-center gap-0.5 border border-transparent hover:border-slate-150 px-1 py-0.5 rounded cursor-pointer select-none"
-                title="收起任务产出柜"
+                className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition-colors cursor-pointer"
+                title="收起"
               >
-                <span>收起</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                <Columns className="w-4 h-4 text-slate-400" />
+                <span className="font-medium text-slate-500">收起</span>
               </button>
             </div>
 
@@ -1347,7 +1344,7 @@ export default function WorkspaceDetailView({
                       
                       {/* Attached items label */}
                       <div className="text-[10px] text-gray-400 font-mono">
-                        ● 关联附近: {idx % 4 === 0 ? "合同文本.pdf、证据材料.pdf" : idx % 4 === 1 ? "股权转让协议_草稿.pdf" : idx % 4 === 2 ? "采购框架协议v2.pdf" : "纠纷案情.pdf"}
+                        ● 关联附件: {idx % 4 === 0 ? 2 : 1}个
                       </div>
 
                       {/* Push to system button handles */}
@@ -1381,7 +1378,7 @@ export default function WorkspaceDetailView({
       {selectedAttachmentForOcr && (
         <div id="ocr-preview-overlay-modal" className="fixed inset-0 z-[99999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 select-text">
           <div className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col border border-slate-100 max-h-[85vh] animate-in zoom-in-95 duration-150">
-            <div className="bg-slate-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center shrink-0">
+            <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center shrink-0">
               <div className="flex items-center gap-2">
                 <FileCheck className="w-5 h-5 text-blue-600" />
                 <h3 className="text-sm font-bold text-gray-900 truncate max-w-md">

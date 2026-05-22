@@ -1,6 +1,6 @@
 {
-  "name": "0519 案件智能化系统",
-  "description": "基于 AI 的全流程案件智能化办案平台：提供智能问答、案情分析与胜诉预测、法律文书智能撰写、结案报告生成、以及团队模版正向分发与逆向沉淀管理系统。",
+  "name": "企业法务智能平台",
+  "description": "基于 AI 的全流程法律智能化助手：提供智能问答、案情分析、法律文书智能撰写、结案报告生成、合同审查等企业级法务核心工具。",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

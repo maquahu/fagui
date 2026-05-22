@@ -145,7 +145,7 @@ export default function WorkspaceListView({
       </div>
 
       {/* Grid of workspace Cards - max 7 cards per row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
         
         {/* Card 1: Create Workspace trigger (First position) */}
         <div
@@ -154,12 +154,12 @@ export default function WorkspaceListView({
             setNewWsName(`新建空间_${dateStr}`);
             setShowCreateModal(true);
           }}
-          className="bg-[#ebf2ff]/20 hover:bg-[#ebf2ff]/50 border border-dashed border-blue-200 hover:border-blue-400 rounded-xl p-5 flex flex-col items-center justify-center min-h-[150px] cursor-pointer transition-all group select-none text-blue-600 hover:text-blue-700"
+          className="bg-[#edf4ff]/95 hover:bg-[#e2efff] border border-[#d6e4ff]/70 rounded-2xl p-5 flex flex-col items-center justify-center h-36 cursor-pointer hover:scale-[1.01] hover:shadow-xs transition-all group select-none"
         >
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform mb-3">
-            <Plus className="w-5 h-5 stroke-[2.5]" />
+          <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#2563eb] group-hover:scale-105 transition-transform mb-2.5 shadow-[0_2px_8px_rgba(37,99,235,0.06)] border border-blue-50/50">
+            <Plus className="w-6 h-6 stroke-[2]" />
           </div>
-          <span className="text-xs font-bold font-sans">创建空间</span>
+          <span className="text-[13px] font-bold text-slate-800 tracking-tight">创建空间</span>
         </div>
 
         {/* Dynamic workspaces cards */}
@@ -168,72 +168,62 @@ export default function WorkspaceListView({
             <div
               id={`ws-card-${ws.id}`}
               key={ws.id}
-              className="bg-[#ebf3ff]/30 rounded-xl border border-[#d6e4ff] p-5 flex flex-col justify-between transition-all relative group h-40 overflow-hidden hover:bg-[#ebf3ff]/60"
+              onClick={() => onSelectWorkspace(ws.id)}
+              className="bg-[#edf4ff]/90 rounded-2xl border border-[#d6e4ff]/70 p-5 flex flex-col justify-between transition-all relative group h-36 overflow-hidden hover:bg-[#e2efff] hover:scale-[1.01] hover:shadow-xs cursor-pointer select-none"
             >
-              {/* Subtle sheets absolute background graphic */}
-              <div className="absolute right-3 bottom-0 w-24 h-16 bg-[#3b82f6]/[0.02] rounded-t-lg border-t border-l border-[#3b82f6]/[0.05] transform translate-y-2 translate-x-1 pointer-events-none select-none z-0">
-                <div className="absolute right-2 top-2 w-20 h-12 bg-[#3b82f6]/[0.01] rounded border-t border-l border-[#3b82f6]/[0.03]" />
+              {/* Stacked sheets absolute background graphic */}
+              <div className="absolute right-0 bottom-0 w-32 h-24 pointer-events-none select-none z-0 overflow-hidden">
+                {/* Back sheet */}
+                <div className="absolute right-3 bottom-5 w-24 h-20 bg-[#d1e3fd] rounded-lg transform rotate-3 opacity-60" />
+                {/* Front sheet */}
+                <div className="absolute right-0 -bottom-3 w-28 h-20 bg-white rounded-xl shadow-[0_2px_4px_rgba(37,99,235,0.03)] border border-slate-100 flex flex-col p-4 space-y-1.5 pt-4">
+                  <div className="w-16 h-1.5 bg-slate-100 rounded-full" />
+                  <div className="w-10 h-1.5 bg-slate-100/70 rounded-full" />
+                </div>
               </div>
 
-              {/* Top Right Badge Indicator - Absolute Positioned */}
-              <div className="absolute top-3.5 right-3.5 z-20">
-                {ws.isApiCreated ? (
-                  <span className="text-[9.5px] font-bold bg-[#e0f2fe] text-[#0369a1] px-1.5 py-0.5 rounded-md border border-[#bae6fd]">
-                    接口创建
-                  </span>
-                ) : (
-                  <span className="text-[9.5px] font-bold bg-[#eef2ff] text-[#4f46e5] px-1.5 py-0.5 rounded-md border border-[#e0e7ff]">
-                    手动创建
-                  </span>
-                )}
-              </div>
-
-              {/* Top Row: workspace labels with spacing to prevent overlap with the top-right badge */}
-              <div className="space-y-2.5 z-10 relative pr-14">
-                <div className="flex items-center gap-1.5 min-h-[16px]">
+              {/* Top Row: Title */}
+              <div className="space-y-1 z-10 relative pr-4">
+                <div className="flex items-center gap-1.5 min-h-[14px]">
                   {/* Handle sample templates indicators matches image mockup style */}
                   {ws.name.includes("示例") && (
-                    <span className="text-[9.5px] font-bold bg-blue-150 text-blue-800 px-1.5 py-0.5 rounded-md">
+                    <span className="text-[9px] font-extrabold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-md">
                       示例
                     </span>
                   )}
                 </div>
 
-                <h4 
-                  onClick={() => onSelectWorkspace(ws.id)}
-                  className="text-xs font-bold text-gray-800 line-clamp-2 hover:text-blue-600 cursor-pointer tracking-tight leading-relaxed transition-colors mt-1"
-                >
+                <h4 className="text-[13.5px] font-bold text-slate-800 line-clamp-2 hover:text-blue-750 cursor-pointer tracking-tight leading-relaxed transition-colors mt-0.5">
                   {ws.name}
                 </h4>
               </div>
 
-              {/* Bottom Row: creation time + reference attachments count on left, settings vertical menu on right */}
-              <div className="flex items-center justify-between text-[10px] text-gray-400 font-sans z-15 relative">
-                <div className="line-clamp-1 max-w-[80%]">
-                  <span>{formatTimestamp(ws.createdAt)}</span>
-                  {ws.attachments.length > 0 && (
-                    <span className="ml-1 text-gray-400">
-                      | {ws.attachments.length} {ws.attachments.length === 1 ? 'file' : 'files'}
-                    </span>
-                  )}
+              {/* Bottom Row: Date + Size & Settings Button */}
+              <div className="flex items-center justify-between text-[10.5px] text-[#64748b] font-medium z-10 relative">
+                <div className="line-clamp-1 max-w-[70%] select-text" onClick={(e) => e.stopPropagation()}>
+                  <span>{formatTimestamp(ws.createdAt).slice(0, 16)}</span>
+                  <span className="mx-1 text-slate-300">|</span>
+                  <span>
+                    {ws.attachments.length} {ws.attachments.length === 1 ? 'file' : 'files'}
+                  </span>
                 </div>
 
-                {/* Vertical menu dots inside tiny rounded bordered box */}
-                <div className="relative">
+                {/* Vertical menu dots inside custom white box as shown in the screenshot */}
+                <div className="relative" onClick={(e) => e.stopPropagation()}>
                   <button
                     id={`ws-menu-btn-${ws.id}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveMenuId(activeMenuId === ws.id ? null : ws.id);
                     }}
-                    className="w-5 h-5 flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded hover:bg-gray-50 text-gray-400 hover:text-gray-650 transition-colors"
+                    className="w-7 h-7 flex items-center justify-center border border-slate-200 hover:border-slate-300 rounded-lg bg-white shadow-xs text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
                   >
-                    <MoreVertical className="w-3 h-3" />
+                    <MoreVertical className="w-3.5 h-3.5" />
                   </button>
 
                   {/* Dropdown Action list */}
                   {activeMenuId === ws.id && (
-                    <div className="absolute right-0 bottom-6 bg-white border border-gray-200 rounded-lg shadow-xl py-1 w-24 z-30 text-[11px]">
+                    <div className="absolute right-0 bottom-8 bg-white border border-slate-200 rounded-lg shadow-xl py-1 w-24 z-30 text-[11px] font-semibold animate-in fade-in slide-in-from-bottom-2 duration-100">
                       {/* Rename action is only supported for MANUAL workspace types */}
                       {!ws.isApiCreated && (
                         <button
@@ -245,9 +235,9 @@ export default function WorkspaceListView({
                             setShowRenameModal(true);
                             setActiveMenuId(null);
                           }}
-                          className="w-full text-left px-2.5 py-1.5 text-gray-700 hover:bg-gray-50 flex items-center gap-1 font-medium"
+                          className="w-full text-left px-2.5 py-1.5 text-slate-705 hover:bg-slate-50 flex items-center gap-1.5"
                         >
-                          <Edit2 className="w-3 h-3 text-gray-400" />
+                          <Edit2 className="w-3 h-3 text-slate-400" />
                           <span>重命名</span>
                         </button>
                       )}
@@ -260,9 +250,9 @@ export default function WorkspaceListView({
                           setShowDeleteModal(true);
                           setActiveMenuId(null);
                         }}
-                        className="w-full text-left px-2.5 py-1.5 text-red-650 hover:bg-red-50 flex items-center gap-1 font-bold"
+                        className="w-full text-left px-2.5 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center gap-1.5 font-bold"
                       >
-                        <Trash2 className="w-3 h-3 text-red-500" />
+                        <Trash2 className="w-3 h-3 text-rose-500" />
                         <span>删除</span>
                       </button>
                     </div>

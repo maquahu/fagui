@@ -74,3 +74,14 @@ export interface ChatMessage {
   };
   attachments?: Attachment[];
 }
+
+export interface QaRecord {
+  id: string;
+  question: string;
+  answer: string;
+  useCaseData: boolean;
+  useStatuteData: boolean;
+  attachments: { name: string; size: string }[];
+  createdAt: string;
+}
+
