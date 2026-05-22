@@ -32,6 +32,7 @@ export interface Artifact {
     litigationStrategies?: string[];
     timelineEvents?: { date: string; event: string; docName?: string }[];
     question?: string;
+    analysisMarkdown?: string;
   };
 }
 

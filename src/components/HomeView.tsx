@@ -222,17 +222,45 @@ export default function HomeView({
             
             {/* Bottom Controls Strip */}
             <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
-              {/* Folder Icon Attachment Selector */}
-              <button 
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="p-2 border border-slate-200 rounded-lg hover:bg-slate-50/50 transition-all cursor-pointer flex items-center justify-center text-slate-500 hover:text-[#2563eb]"
-                title="选择案例背景/质证附件"
-              >
-                <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-3">
+                {/* File Upload Attachment Selector matching workspace with UploadCloud */}
+                <button 
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="p-1.5 border border-slate-200 rounded-lg hover:bg-slate-50/50 transition-all cursor-pointer flex items-center justify-center text-slate-500 hover:text-[#2563eb]"
+                  title="选择案卷证据/质证附件"
+                >
+                  <UploadCloud className="w-4.5 h-4.5 text-blue-500" />
+                </button>
+
+                {/* Nice Divider */}
+                <span className="w-[1px] h-4 bg-slate-200" />
+
+                {/* Knowledge Base checkbox options embedded here as auxiliary knowledge */}
+                <div className="flex items-center gap-3 text-[11px] text-slate-400 font-medium select-none">
+                  <span className="font-bold text-slate-500 font-sans">辅助知识：</span>
+                  
+                  <label className="flex items-center gap-1.5 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      checked={useCaseData} 
+                      onChange={(e) => setUseCaseData(e.target.checked)}
+                      className="rounded border-slate-300 text-slate-800 focus:ring-slate-800 w-3.5 h-3.5 cursor-pointer accent-slate-800"
+                    />
+                    <span className="text-slate-600 group-hover:text-slate-900 font-bold">案例数据</span>
+                  </label>
+
+                  <label className="flex items-center gap-1.5 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      checked={useStatuteData} 
+                      onChange={(e) => setUseStatuteData(e.target.checked)}
+                      className="rounded border-slate-300 text-slate-800 focus:ring-slate-800 w-3.5 h-3.5 cursor-pointer accent-slate-800"
+                    />
+                    <span className="text-slate-600 group-hover:text-slate-900 font-bold">法规数据</span>
+                  </label>
+                </div>
+              </div>
 
               {/* Send Airplane Button */}
               <button
@@ -245,37 +273,12 @@ export default function HomeView({
                 {isSubmittingQuestion ? (
                   <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <svg className="w-4.5 h-4.5 transform rotate-45 animate-pulse/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4.5 h-4.5 transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
                 )}
               </button>
             </div>
-          </div>
-
-          {/* 3. Knowledge Base Selector Checkboxes */}
-          <div className="flex items-center gap-4 text-[12px] text-slate-500 font-medium px-1 select-none pt-2">
-            <span className="font-bold text-slate-800">知识数据：</span>
-            
-            <label className="flex items-center gap-2 cursor-pointer group">
-              <input 
-                type="checkbox" 
-                checked={useCaseData} 
-                onChange={(e) => setUseCaseData(e.target.checked)}
-                className="rounded border-slate-300 text-slate-800 focus:ring-slate-800 w-4 h-4 cursor-pointer accent-slate-800"
-              />
-              <span className="text-slate-600 group-hover:text-slate-900 font-bold">案例数据</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer group">
-              <input 
-                type="checkbox" 
-                checked={useStatuteData} 
-                onChange={(e) => setUseStatuteData(e.target.checked)}
-                className="rounded border-slate-300 text-slate-800 focus:ring-slate-800 w-4 h-4 cursor-pointer accent-slate-800"
-              />
-              <span className="text-slate-600 group-hover:text-slate-900 font-bold">法规数据</span>
-            </label>
           </div>
 
           {/* 4. Section 1: 案件智能化助手 */}

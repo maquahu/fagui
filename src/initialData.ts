@@ -108,19 +108,35 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     attachments: [
       {
         id: "att_001",
-        name: "买卖采购供销合同书_2024.pdf",
-        size: "4.2 MB",
+        name: "钢材采购合同.pdf",
+        size: "2.4 MB",
         mime: "application/pdf",
-        uploadedAt: "2026-05-18T10:35:00Z",
+        uploadedAt: "2026-01-15T12:00:00Z",
         extractedText: "买卖合同双方约定：由原告于合同签署后30日内按要求提供两批货品，买方于批次到货确认回执后15日内支付尾款 15.4 万元，逾期利息每日按总货款万分之三计算纠纷。"
       },
       {
         id: "att_002",
-        name: "银行首期款和次期款转账水单.jpg",
-        size: "1.8 MB",
-        mime: "image/jpeg",
-        uploadedAt: "2026-05-18T10:40:00Z",
+        name: "民事起诉状(0313).docx",
+        size: "156 KB",
+        mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        uploadedAt: "2026-03-13T12:00:00Z",
+        extractedText: "原告按买卖供销合同按时供给产品无缺陷，被告签收回单无瑕疵。期满后被告无端拖欠合同余款15.4万元，借口流动资金被挪用。"
+      },
+      {
+        id: "att_003",
+        name: "付款凭证_银行流水.pdf",
+        size: "3.1 MB",
+        mime: "application/pdf",
+        uploadedAt: "2026-03-15T12:00:00Z",
         extractedText: "银行账号转账流出 300,000 元整，摘要为第一二期买卖合同购货款。账户收款人为上海信耀商贸有限公司。"
+      },
+      {
+        id: "att_004",
+        name: "催款函及对账单.docx",
+        size: "89 KB",
+        mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        uploadedAt: "2026-04-02T12:00:00Z",
+        extractedText: "针对本商事合同欠款纠纷，买方由于材质品质存在争议（辩称灰分超标等）无端中途抗辩拒付到期货款 15.4 万元。要求督促结算给付。"
       }
     ],
     artifacts: [
